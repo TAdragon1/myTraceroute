@@ -1,6 +1,7 @@
 # Imports
 import socket
 import struct
+import sys
 
 # Create datagram
 my_socket = socket.SOCK_DGRAM
@@ -33,3 +34,13 @@ port_from_packet = struct.unpack("!H", icmp_packet[x:x+2])[0]       # TODO defin
 # If only needing a singly byte
 port_from_packet = ord(x)
 
+
+
+if __name__ == "__main__":
+    hostname = sys.argv[1]
+    print(f'Hostname: {hostname}')
+
+    destination_ip_address = socket.gethostbyname(hostname)
+    print(f'Destination ip address: {destination_ip_address}')
+
+    
