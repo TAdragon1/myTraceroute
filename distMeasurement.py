@@ -4,7 +4,7 @@ import select
 import time
 
 
-destination_port_num = 33434
+DESTINATION_PORT_NUM = 33434
 
 if __name__ == "__main__":
     #  Open file and read in destinations
@@ -42,7 +42,7 @@ if __name__ == "__main__":
         payload	= bytes(msg	+ 'a'*(1472	- len(msg)),'ascii')
 
         # Send socket
-        send_sock.sendto(payload, (destination_ip_address, destination_port_num))
+        send_sock.sendto(payload, (destination_ip_address, DESTINATION_PORT_NUM))
 
         # Create raw socket to receive ICMP messages
         recv_sock = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_ICMP)
@@ -50,7 +50,7 @@ if __name__ == "__main__":
         # Windows shenanigans
         recv_sock.bind(('', 0))
 
-        time_left = ttl
+        time_left = ttl*3
         started_select = time.time()
         ready = select.select([recv_sock], [], [], time_left)
         how_long_in_select = time.time() - started_select
