@@ -66,16 +66,25 @@ if __name__ == "__main__":
         print(icmp_packet)
 
         # Assuming icmp_packet[x:x+1] represents the two-bytes port num in a packet
-        time_to_live = struct.unpack("B", icmp_packet[8:9])[0]
-        print(time_to_live)
-
         time_to_live = ord(icmp_packet[8:9])
         print(time_to_live)
+
+        dest_ip = struct.unpack("BBBB", icmp_packet[0:4])[0]
+        print(dest_ip)
 
         dest_ip = struct.unpack("BBBB", icmp_packet[4:8])[0]
         print(dest_ip)
         
+        dest_ip = struct.unpack("BBBB", icmp_packet[8:12])[0]
+        print(dest_ip)
+        
+        dest_ip = struct.unpack("BBBB", icmp_packet[12:16])[0]
+        print(dest_ip)
+        
         dest_ip = struct.unpack("BBBB", icmp_packet[16:20])[0]
+        print(dest_ip)
+        
+        dest_ip = struct.unpack("BBBB", icmp_packet[20:24])[0]
         print(dest_ip)
 
 
