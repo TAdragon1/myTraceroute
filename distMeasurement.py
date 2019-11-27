@@ -69,27 +69,27 @@ if __name__ == "__main__":
         time_to_live = ord(icmp_packet[8:9])
         print(time_to_live)
 
-        dest_ip = struct.unpack("BBBB", icmp_packet[0:4])[0]
+        dest_ip = struct.unpack("BBBB", icmp_packet[0:5])[0]
         print(dest_ip)
 
-        dest_ip = struct.unpack("BBBB", icmp_packet[4:8])[0]
+        dest_ip = struct.unpack("BBBB", icmp_packet[4:9])[0]
         print(dest_ip)
         
-        dest_ip = struct.unpack("BBBB", icmp_packet[8:12])[0]
+        dest_ip = struct.unpack("BBBB", icmp_packet[8:13])[0]
         print(dest_ip)
         
-        dest_ip = struct.unpack("BBBB", icmp_packet[12:16])[0]
+        dest_ip = struct.unpack("BBBB", icmp_packet[12:17])[0]
         print(dest_ip)
         
-        dest_ip = struct.unpack("BBBB", icmp_packet[16:20])[0]
+        dest_ip = struct.unpack("BBBB", icmp_packet[16:21])[0]
         print(dest_ip)
         
-        dest_ip = struct.unpack("BBBB", icmp_packet[20:24])[0]
+        dest_ip = struct.unpack("BBBB", icmp_packet[20:25])[0]
         print(dest_ip)
 
         print("\n")
-        for x in range(25):
-            dest_ip = ord(icmp_packet[x])
+        for x in range(24):
+            dest_ip = ord(icmp_packet[x:x+1])
             print(dest_ip)
 
         # TODO
