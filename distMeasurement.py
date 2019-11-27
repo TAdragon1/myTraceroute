@@ -87,6 +87,10 @@ if __name__ == "__main__":
         dest_ip = struct.unpack("BBBB", icmp_packet[20:24])[0]
         print(dest_ip)
 
+        print("\n")
+        for x in range(25):
+            dest_ip = ord(icmp_packet[x])
+            print(dest_ip)
 
         # TODO
         # Do ips match
