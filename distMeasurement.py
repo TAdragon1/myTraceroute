@@ -1,5 +1,7 @@
 import socket
 import struct
+import select
+import time
 
 
 destination_port_num = 33434
@@ -12,7 +14,8 @@ if __name__ == "__main__":
 
     while destination != '':
         destination = targets_file.readline()
-        destinations.append(destination[:-1])
+        if destination != '':
+            destinations.append(destination[:-1])
     targets_file.close()
 
     for destination in destinations:
@@ -28,10 +31,11 @@ if __name__ == "__main__":
         print(f'Destination ip address: {destination_ip_address}')
 
         # Create datagram
-        send_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        send_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
 
         # Change headers
-        send_sock.setsockopt(socket.IPPROTO_IP, socket.IP_TTL, 1)
+        ttl = 1
+        send_sock.setsockopt(socket.SOL_IP, socket.IP_TTL, ttl)
 
         # Include disclaimer
         msg = "Measurement for class project. Questions to student twa16@case.edu or professor mxr136@case.edu"
@@ -46,8 +50,14 @@ if __name__ == "__main__":
         # Windows shenanigans
         recv_sock.bind(('', 0))
 
-        # TODO use select or poll before reading so servers that don't respond won't error
-        # If don't respond 3x in a row, print error msg and move on to next destination
+        time_left = ttl
+        started_select = time.time()
+        ready = select.select([recv_sock], [], [], time_left)
+        how_long_in_select = time.time() - started_select
+        if ready[0] == []:
+            print("Timed out")
+            continue
+        # TODO If don't respond 3x in a row, print error msg and move on to next destination
 
         # Get ICMP packet
         icmp_packet = recv_sock.recv(4000)
@@ -55,14 +65,17 @@ if __name__ == "__main__":
         print(icmp_packet)
 
         # Assuming icmp_packet[x:x+1] represents the two-bytes port num in a packet
-        dest_ip = struct.unpack("!H", icmp_packet[16:20])[0]
+        time_to_live = struct.unpack("B", icmp_packet[8:9])[0]
+        print(time_to_live)
+
+        time_to_live = ord(icmp_packet[8:9])
+        print(time_to_live)
+
+        dest_ip = struct.unpack("BBBB", icmp_packet[4:8])[0]
         print(dest_ip)
-
-        # x is what for port number
-        port_from_packet = struct.unpack("!H", icmp_packet[x:x+2])[0]
-
-        # If only needing a single byte
-        port_from_packet = ord(icmp_packet[x])
+        
+        dest_ip = struct.unpack("BBBB", icmp_packet[16:20])[0]
+        print(dest_ip)
 
 
         # TODO
