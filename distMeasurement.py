@@ -31,7 +31,8 @@ if __name__ == "__main__":
         print(f'Destination ip address: {destination_ip_address}')
 
         # Create datagram
-        send_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+        #send_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+        send_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
         # Change headers
         ttl = 1
