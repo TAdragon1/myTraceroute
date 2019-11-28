@@ -131,5 +131,5 @@ if __name__ == "__main__":
             num_matched += 1
         print(f'Ports match: {matched_destination_port}')
 
-        print(f'Num of matches: {num_matched}')
+        print(f'Num of matches: {num_matched}\n\n')
         # TODO print num hops, RTT
