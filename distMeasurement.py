@@ -60,7 +60,7 @@ if __name__ == "__main__":
             # send_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
             # Change headers
-            ttl = 1
+            ttl = 255
             send_sock.setsockopt(socket.SOL_IP, socket.IP_TTL, ttl)
 
             # Include disclaimer
@@ -76,7 +76,7 @@ if __name__ == "__main__":
             # Windows shenanigans
             recv_sock.bind(('', 0))
 
-            time_left = ttl*3
+            time_left = ttl
             started_select = time.time()
             ready = select.select([recv_sock], [], [], time_left)
             how_long_in_select = time.time() - started_select
@@ -89,9 +89,7 @@ if __name__ == "__main__":
 
             else:
                 time_received = time.time()
-                rtt = time_received - started_select 
-                
-                num_hops = rtt/ttl
+                rtt = time_received - started_select
                 
                 print(f'Destination: {destination}')
                 print(f'Destination ip address: {destination_ip_address}')
@@ -131,6 +129,7 @@ if __name__ == "__main__":
                 time_to_live_end_index = 9 + 28
                 time_to_live = ord(icmp_packet[time_to_live_start_index:time_to_live_end_index])
                 print(f'Time_to_live: {time_to_live}')
+                num_hops = 255 - time_to_live
                 
                 # Check if match:
                 dest_address_start_index = 16 + 28
