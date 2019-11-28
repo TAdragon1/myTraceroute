@@ -21,6 +21,16 @@ def do_ports_match(port_int, port):
     return port_int == port
 
 
+valid_types = [3, 69]
+def is_right_type(icmp_type):
+    return valid_types.__contains__(icmp_type)
+
+
+valid_codes = [0, 3]
+def is_right_code(icmp_code):
+    return valid_codes.__contains__(icmp_code)
+
+
 if __name__ == "__main__":
     #  Open file and read in destinations
     targets_file = open('targets.txt', 'r')
@@ -89,24 +99,26 @@ if __name__ == "__main__":
         print(f'IPs match: {matched_source_ip}')
         
         # Type
-        type_start_index = 28
-        type_end_index = 29
-        type = ord(icmp_packet[type_start_index:type_end_index])
-        print(f'Type: {type}')
+        icmp_type_start_index = 28
+        icmp_type_end_index = 29
+        icmp_type = ord(icmp_packet[icmp_type_start_index:icmp_type_end_index])
+        print(f'Type: {icmp_type}')
+        right_type = is_right_type(icmp_type)
         
         # Code
         code_start_index = 29
         code_end_index = 30
         code = ord(icmp_packet[code_start_index:code_end_index])
         print(f'Code: {code}')
+        right_code = is_right_code(code)
         
-        right_type_and_code = type == 3 and code == 3
+        right_type_and_code = right_type and right_code
         
         # Then 20 bytes for sent IP header + 8 bytes for UDP header
         time_to_live_start_index = 8 + 28
         time_to_live_end_index = 9 + 28
         time_to_live = ord(icmp_packet[time_to_live_start_index:time_to_live_end_index])
-        print(time_to_live)
+        print(f'Time_to_live: {time_to_live}')
         
         # Check if match:
         dest_address_start_index = 16 + 28
