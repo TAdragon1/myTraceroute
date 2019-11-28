@@ -6,6 +6,21 @@ import time
 
 DESTINATION_PORT_NUM = 33434
 
+
+def do_ips_match(ip_string, ip_array):
+    ip_num_array = ip_string.split('.')
+    
+    for i in range(5):
+        if ip_num_array[i] != ip_array[i]:
+            return False
+    
+    return True
+        
+        
+def do_ports_match(port_int, port):
+    return port_int == port
+
+
 if __name__ == "__main__":
     #  Open file and read in destinations
     targets_file = open('targets.txt', 'r')
@@ -140,17 +155,3 @@ if __name__ == "__main__":
         # print total/2 matching
 
         # TODO print num hops, RTT
-        
-        
-def do_ips_match(ip_string, ip_array):
-    ip_num_array = ip_string.split('.')
-    
-    for i in range(5):
-        if ip_num_array[i] != ip_array[i]:
-            return False
-    
-    return True
-        
-        
-def do_ports_match(port_int, port):
-    return port_int == port
