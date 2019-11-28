@@ -114,9 +114,9 @@ if __name__ == "__main__":
 
         num_matched = 0
         matched_destination_ip = do_ips_match(destination_ip_address, dest_ip)
-        if matched_destination_ip:
+        if matched_destination_ip and right_type_and_code:
             num_matched += 1
-        print(f'IPs match: {matched_destination_ip}')
+        print(f'IPs match and correct type and code: {matched_destination_ip and right_type_and_code}')
 
         # Grab port from payload
         dest_port_start_index = 2 + 48
@@ -125,9 +125,9 @@ if __name__ == "__main__":
         print(f'ICMP Payload port: {dest_port}')
 
         matched_destination_port = do_ports_match(DESTINATION_PORT_NUM, dest_port)
-        if matched_destination_port and right_type_and_code:
+        if matched_destination_port:
             num_matched += 1
-        print(f'Ports match and correct type and code: {matched_destination_port}')
+        print(f'Ports match: {matched_destination_port}')
 
         print(f'Num of matches: {num_matched}')
         # TODO print num hops, RTT
