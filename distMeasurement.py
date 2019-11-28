@@ -77,32 +77,16 @@ if __name__ == "__main__":
 
         # Get ICMP packet
         icmp_packet = recv_sock.recv(4000)
-        print(len(icmp_packet))
-        print(icmp_packet)
+        print(f'Length of packet: {len(icmp_packet)}')
 
         # First 20 bytes are receiving IP header + 8 bytes for ICMP header
-        time_to_live_start_index = 8
-        time_to_live_end_index = 9
-        time_to_live = ord(icmp_packet[time_to_live_start_index:time_to_live_end_index])
-        print(time_to_live)
-        
-        protocol_start_index = 9
-        protocol_end_index = 10
-        protocol = ord(icmp_packet[protocol_start_index:protocol_end_index])
-        print(protocol)
-        
+        # Match this? TODO
         source_address_start_index = 12
         source_address_end_index = 16
         source_ip = struct.unpack("BBBB", icmp_packet[source_address_start_index:source_address_end_index])
-        print(source_ip)
+        print(f'Response source_ip: {source_ip}')
         
-        dest_address_start_index = 16
-        dest_address_end_index = 20
-        dest_ip = struct.unpack("BBBB", icmp_packet[dest_address_start_index:dest_address_end_index])
-        print(dest_ip)
-        
-        
-        
+        # Grab port from icmp payload?
         
         
         # Then 20 bytes for sent IP header + 8 bytes for UDP header
@@ -111,47 +95,28 @@ if __name__ == "__main__":
         time_to_live = ord(icmp_packet[time_to_live_start_index:time_to_live_end_index])
         print(time_to_live)
         
-        protocol_start_index = 9 + 28
-        protocol_end_index = 10 + 28
-        protocol = ord(icmp_packet[protocol_start_index:protocol_end_index])
-        print(protocol)
-        
-        source_address_start_index = 12 + 28
-        source_address_end_index = 16 + 28
-        source_ip = struct.unpack("BBBB", icmp_packet[source_address_start_index:source_address_end_index])
-        print(source_ip)
-        
         # Check if match:
         dest_address_start_index = 16 + 28
         dest_address_end_index = 20 + 28
         dest_ip = struct.unpack("BBBB", icmp_packet[dest_address_start_index:dest_address_end_index])
-        print(dest_ip)
+        print(f'Send desination_ip: {dest_ip}')
 
+        num_matched = 0
         matched_destination_ip = do_ips_match(destination_ip_address, dest_ip)
-        print(matched_destination_ip)
+        if matched_destination_ip:
+            num_matched += 1
+        print(f'IPs match: {matched_destination_ip}')
 
         # UDP header
-        source_port_start_index = 0 + 48
-        source_port_end_index = 2 + 48
-        source_port = struct.unpack("BB", icmp_packet[source_port_start_index:source_port_end_index])[0]
-        print(source_port)
-
         dest_port_start_index = 2 + 48
         dest_port_end_index = 4 + 48
         dest_port = struct.unpack("BB", icmp_packet[dest_port_start_index:dest_port_end_index])[0]
-        print(dest_port)
+        print(f'Sent destination port: {dest_port}')
 
         matched_destination_port = do_ports_match(DESTINATION_PORT_NUM, dest_port)
-        print(matched_destination_ip)
+        if matched_destination_port:
+            num_matched += 1
+        print(f'Ports match: {matched_destination_port}')
 
-        # TODO
-        # Do ips match
-        # If so, print ip's match
-
-        # If not, print ip's don't match
-
-        # repeat for port nums
-
-        # print total/2 matching
-
+        print(f'Num of matches: {num_matched}')
         # TODO print num hops, RTT
