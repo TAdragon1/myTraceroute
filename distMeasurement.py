@@ -88,9 +88,6 @@ if __name__ == "__main__":
         matched_source_ip = do_ips_match(destination_ip_address, source_ip)
         print(f'IPs match: {matched_source_ip}')
         
-        # Grab port from icmp payload?
-        
-        
         # Then 20 bytes for sent IP header + 8 bytes for UDP header
         time_to_live_start_index = 8 + 28
         time_to_live_end_index = 9 + 28
@@ -109,11 +106,11 @@ if __name__ == "__main__":
             num_matched += 1
         print(f'IPs match: {matched_destination_ip}')
 
-        # UDP header
+        # Grab port from payload
         dest_port_start_index = 2 + 48
         dest_port_end_index = 4 + 48
         dest_port = struct.unpack("BB", icmp_packet[dest_port_start_index:dest_port_end_index])[0]
-        print(f'Sent destination port: {dest_port}')
+        print(f'ICMP Payload port: {dest_port}')
 
         matched_destination_port = do_ports_match(DESTINATION_PORT_NUM, dest_port)
         if matched_destination_port:
