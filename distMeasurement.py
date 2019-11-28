@@ -60,7 +60,7 @@ if __name__ == "__main__":
             # send_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
             # Change headers
-            ttl = 255
+            ttl = 1
             send_sock.setsockopt(socket.SOL_IP, socket.IP_TTL, ttl)
 
             # Include disclaimer
@@ -69,17 +69,16 @@ if __name__ == "__main__":
 
             # Send socket
             send_sock.sendto(payload, (destination_ip_address, DESTINATION_PORT_NUM))
-
+            time_sent = time.time()
+            
             # Create raw socket to receive ICMP messages
             recv_sock = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_ICMP)
 
             # Windows shenanigans
             recv_sock.bind(('', 0))
 
-            time_left = ttl
-            started_select = time.time()
-            ready = select.select([recv_sock], [], [], time_left)
-            how_long_in_select = time.time() - started_select
+            ready = select.select([recv_sock], [], [], ttl)
+            rtt = time.time() - time_sent
             if ready[0] == []:
                 attempts += 1
                 if attempts == 3:
@@ -87,10 +86,7 @@ if __name__ == "__main__":
                     print(f'Destination ip address: {destination_ip_address}')
                     print("Timed out\n\n")
 
-            else:
-                time_received = time.time()
-                rtt = time_received - started_select
-                
+            else:                
                 print(f'Destination: {destination}')
                 print(f'Destination ip address: {destination_ip_address}')
             
