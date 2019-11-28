@@ -21,12 +21,12 @@ def do_ports_match(port_int, port):
     return port_int == port
 
 
-valid_types = [3, 69]
+valid_types = [3]
 def is_right_type(icmp_type):
     return valid_types.__contains__(icmp_type)
 
 
-valid_codes = [0, 3]
+valid_codes = [3]
 def is_right_code(icmp_code):
     return valid_codes.__contains__(icmp_code)
 
@@ -83,9 +83,16 @@ if __name__ == "__main__":
             if ready[0] == []:
                 attempts += 1
                 if attempts == 3:
+                    print(f'Destination: {destination}')
+                    print(f'Destination ip address: {destination_ip_address}')
                     print("Timed out\n\n")
 
             else:
+                time_received = time.time()
+                rtt = time_received - started_select 
+                
+                num_hops = rtt/ttl
+                
                 print(f'Destination: {destination}')
                 print(f'Destination ip address: {destination_ip_address}')
             
@@ -149,4 +156,6 @@ if __name__ == "__main__":
                 print(f'Ports match: {matched_destination_port}')
 
                 print(f'Num of matches: {num_matched}\n\n')
-                # TODO print num hops, RTT
+                
+                print(f'Num hops: {num_hops}')
+                print(f'RTT: {rtt}')
