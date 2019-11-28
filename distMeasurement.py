@@ -31,8 +31,8 @@ if __name__ == "__main__":
         print(f'Destination ip address: {destination_ip_address}')
 
         # Create datagram
-        #send_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-        send_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        send_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+        # send_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
         # Change headers
         ttl = 1
@@ -65,32 +65,51 @@ if __name__ == "__main__":
         print(len(icmp_packet))
         print(icmp_packet)
 
-        # Assuming icmp_packet[x:x+1] represents the two-bytes port num in a packet
-        time_to_live = ord(icmp_packet[8:9])
+        # First 20 bytes are receiving IP header + 8 bytes for ICMP header
+        time_to_live_start_index = 8
+        time_to_live_end_index = 9
+        time_to_live = ord(icmp_packet[time_to_live_start_index:time_to_live_end_index])
         print(time_to_live)
+        
+        protocol_start_index = 9
+        protocol_end_index = 10
+        protocol = ord(icmp_packet[protocol_start_index:protocol_end_index])
+        print(protocol)
+        
+        source_address_start_index = 12
+        source_address_end_index = 16
+        source_ip = struct.unpack("BBBB", icmp_packet[source_address_start_index:source_address_end_index])
+        print(source_ip)
+        
+        dest_address_start_index = 16
+        dest_address_end_index = 20
+        dest_ip = struct.unpack("BBBB", icmp_packet[dest_address_start_index:dest_address_end_index])
+        print(dest_ip)
+        
+        # Then 20 bytes for sent IP header + 8 bytes for UDP header
+        time_to_live_start_index = 8 + 28
+        time_to_live_end_index = 9 + 28
+        time_to_live = ord(icmp_packet[time_to_live_start_index:time_to_live_end_index])
+        print(time_to_live)
+        
+        protocol_start_index = 9 + 28
+        protocol_end_index = 10 + 28
+        protocol = ord(icmp_packet[protocol_start_index:protocol_end_index])
+        print(protocol)
+        
+        source_address_start_index = 12 + 28
+        source_address_end_index = 16 + 28
+        source_ip = struct.unpack("BBBB", icmp_packet[source_address_start_index:source_address_end_index])
+        print(source_ip)
+        
+        dest_address_start_index = 16 + 28
+        dest_address_end_index = 20 + 28
+        dest_ip = struct.unpack("BBBB", icmp_packet[dest_address_start_index:dest_address_end_index])
+        print(dest_ip)
 
-        dest_ip = struct.unpack("BBBB", icmp_packet[0:4])[0]
-        print(dest_ip)
+        
 
-        dest_ip = struct.unpack("BBBB", icmp_packet[4:8])[0]
-        print(dest_ip)
-        
-        dest_ip = struct.unpack("BBBB", icmp_packet[8:12])[0]
-        print(dest_ip)
-        
-        dest_ip = struct.unpack("BBBB", icmp_packet[12:16])[0]
-        print(dest_ip)
-        
-        dest_ip = struct.unpack("BBBB", icmp_packet[16:20])[0]
-        print(dest_ip)
-        
-        dest_ip = struct.unpack("BBBB", icmp_packet[20:24])[0]
-        print(dest_ip)
 
-        print("\n")
-        for x in range(24):
-            dest_ip = ord(icmp_packet[x:x+1])
-            print(dest_ip)
 
         # TODO
         # Do ips match
