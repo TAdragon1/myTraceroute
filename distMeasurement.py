@@ -80,11 +80,13 @@ if __name__ == "__main__":
         print(f'Length of packet: {len(icmp_packet)}')
 
         # First 20 bytes are receiving IP header + 8 bytes for ICMP header
-        # Match this? TODO
         source_address_start_index = 12
         source_address_end_index = 16
         source_ip = struct.unpack("BBBB", icmp_packet[source_address_start_index:source_address_end_index])
         print(f'Response source_ip: {source_ip}')
+        
+        matched_source_ip = do_ips_match(destination_ip_address, source_ip)
+        print(f'IPs match: {matched_source_ip}')
         
         # Grab port from icmp payload?
         
