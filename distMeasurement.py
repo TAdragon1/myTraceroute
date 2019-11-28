@@ -11,7 +11,7 @@ def do_ips_match(ip_string, ip_array):
     ip_num_array = ip_string.split('.')
     
     for i in range(5):
-        if ip_num_array[i] != ip_array[i]:
+        if int(ip_num_array[i]) != ip_array[i]:
             return False
     
     return True
