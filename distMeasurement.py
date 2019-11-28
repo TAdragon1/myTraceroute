@@ -133,9 +133,9 @@ if __name__ == "__main__":
         print(f'IPs match and correct type and code: {matched_destination_ip and right_type_and_code}')
 
         # Grab port from payload
-        dest_port_start_index = 48
-        dest_port_end_index = 2 + 48
-        dest_port = struct.unpack("BB", icmp_packet[dest_port_start_index:dest_port_end_index])[0]
+        dest_port_start_index = 2 + 48
+        dest_port_end_index = 4 + 48
+        dest_port = struct.unpack("!H", icmp_packet[dest_port_start_index:dest_port_end_index])[0]
         print(f'ICMP Payload port: {dest_port}')
 
         matched_destination_port = do_ports_match(DESTINATION_PORT_NUM, dest_port)
