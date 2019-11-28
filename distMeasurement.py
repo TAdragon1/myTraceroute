@@ -88,6 +88,18 @@ if __name__ == "__main__":
         matched_source_ip = do_ips_match(destination_ip_address, source_ip)
         print(f'IPs match: {matched_source_ip}')
         
+        type_start_index = 28
+        type_end_index = 29
+        type = ord(icmp_packet[type_start_index:type_end_index])
+        print(f'Type: {type}')
+        
+        code_start_index = 29
+        code_end_index = 30
+        code = ord(icmp_packet[code_start_index:code_end_index])
+        print(f'Code: {code}')
+        
+        right_type_and_code = type == 3 and code == 3
+        
         # Then 20 bytes for sent IP header + 8 bytes for UDP header
         time_to_live_start_index = 8 + 28
         time_to_live_end_index = 9 + 28
@@ -113,9 +125,9 @@ if __name__ == "__main__":
         print(f'ICMP Payload port: {dest_port}')
 
         matched_destination_port = do_ports_match(DESTINATION_PORT_NUM, dest_port)
-        if matched_destination_port:
+        if matched_destination_port and right_type_and_code:
             num_matched += 1
-        print(f'Ports match: {matched_destination_port}')
+        print(f'Ports match and correct type and code: {matched_destination_port}')
 
         print(f'Num of matches: {num_matched}')
         # TODO print num hops, RTT
