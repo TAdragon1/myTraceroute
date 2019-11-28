@@ -118,15 +118,16 @@ if __name__ == "__main__":
         # UDP header
         source_port_start_index = 0 + 48
         source_port_end_index = 2 + 48
-        source_port = struct.unpack("BB", icmp_packet[source_port_start_index:source_port_end_index])
+        source_port = struct.unpack("BB", icmp_packet[source_port_start_index:source_port_end_index])[0]
         print(source_port)
 
-        dest_port_start_index = 0 + 48
-        dest_port_end_index = 2 + 48
-        dest_port = struct.unpack("BB", icmp_packet[dest_port_start_index:dest_port_end_index])
+        dest_port_start_index = 2 + 48
+        dest_port_end_index = 4 + 48
+        dest_port = struct.unpack("BB", icmp_packet[dest_port_start_index:dest_port_end_index])[0]
         print(dest_port)
 
-
+        matched_destination_port = do_ports_match(DESTINATION_PORT_NUM, dest_port)
+        print(matched_destination_ip)
 
         # TODO
         # Do ips match
@@ -150,3 +151,6 @@ def do_ips_match(ip_string, ip_array):
     
     return True
         
+        
+def do_ports_match(port_int, port):
+    return port_int == port
