@@ -10,7 +10,7 @@ DESTINATION_PORT_NUM = 33434
 def do_ips_match(ip_string, ip_array):
     ip_num_array = ip_string.split('.')
     
-    for i in range(5):
+    for i in range(4):
         if int(ip_num_array[i]) != ip_array[i]:
             return False
     
