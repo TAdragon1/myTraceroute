@@ -76,7 +76,7 @@ if __name__ == "__main__":
         # TODO If don't respond 3x in a row, print error msg and move on to next destination
 
         # Get ICMP packet
-        icmp_packet = recv_sock.recv(4000)
+        icmp_packet = recv_sock.recv(2000)  # 1528?
         print(f'Length of packet: {len(icmp_packet)}')
 
         # First 20 bytes are receiving IP header + 8 bytes for ICMP header
@@ -88,11 +88,13 @@ if __name__ == "__main__":
         matched_source_ip = do_ips_match(destination_ip_address, source_ip)
         print(f'IPs match: {matched_source_ip}')
         
+        # Type
         type_start_index = 28
         type_end_index = 29
         type = ord(icmp_packet[type_start_index:type_end_index])
         print(f'Type: {type}')
         
+        # Code
         code_start_index = 29
         code_end_index = 30
         code = ord(icmp_packet[code_start_index:code_end_index])
