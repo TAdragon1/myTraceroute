@@ -86,6 +86,10 @@ if __name__ == "__main__":
         dest_ip = struct.unpack("BBBB", icmp_packet[dest_address_start_index:dest_address_end_index])
         print(dest_ip)
         
+        
+        
+        
+        
         # Then 20 bytes for sent IP header + 8 bytes for UDP header
         time_to_live_start_index = 8 + 28
         time_to_live_end_index = 9 + 28
@@ -102,12 +106,25 @@ if __name__ == "__main__":
         source_ip = struct.unpack("BBBB", icmp_packet[source_address_start_index:source_address_end_index])
         print(source_ip)
         
+        # Check if match:
         dest_address_start_index = 16 + 28
         dest_address_end_index = 20 + 28
         dest_ip = struct.unpack("BBBB", icmp_packet[dest_address_start_index:dest_address_end_index])
         print(dest_ip)
 
-        
+        matched_destination_ip = do_ips_match(destination_ip_address, dest_ip)
+        print(matched_destination_ip)
+
+        # UDP header
+        source_port_start_index = 0 + 48
+        source_port_end_index = 2 + 48
+        source_port = struct.unpack("BB", icmp_packet[source_port_start_index:source_port_end_index])
+        print(source_port)
+
+        dest_port_start_index = 0 + 48
+        dest_port_end_index = 2 + 48
+        dest_port = struct.unpack("BB", icmp_packet[dest_port_start_index:dest_port_end_index])
+        print(dest_port)
 
 
 
@@ -122,3 +139,14 @@ if __name__ == "__main__":
         # print total/2 matching
 
         # TODO print num hops, RTT
+        
+        
+def do_ips_match(ip_string, ip_array):
+    ip_num_array = ip_string.split('.')
+    
+    for i in range(5):
+        if ip_num_array[i] != ip_array[i]:
+            return False
+    
+    return True
+        
