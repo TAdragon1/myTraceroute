@@ -55,10 +55,6 @@ if __name__ == "__main__":
             except socket.gaierror:
                 print('Error getting by host name')
 
-            #  Debugs TODO remove
-            print(f'Destination: {destination}')
-            print(f'Destination ip address: {destination_ip_address}')
-
             # Create datagram
             send_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
             # send_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -87,9 +83,12 @@ if __name__ == "__main__":
             if ready[0] == []:
                 attempts += 1
                 if attempts == 3:
-                    print("Timed out")
+                    print("Timed out\n\n")
 
             else:
+                print(f'Destination: {destination}')
+                print(f'Destination ip address: {destination_ip_address}')
+            
                 # Get ICMP packet
                 icmp_packet = recv_sock.recv(2000)  # 1528?
                 read_response = True
