@@ -91,38 +91,29 @@ if __name__ == "__main__":
                 print(f'Destination ip address: {destination_ip_address}')
             
                 # Get ICMP packet
-                icmp_packet = recv_sock.recv(2000)  # 1528?
+                icmp_packet = recv_sock.recv(2000)  # should be plenty
                 read_response = True
                 print(f'Length of packet: {len(icmp_packet)}')
-
-                # First 20 bytes are receiving IP header + 8 bytes for ICMP header
-                # source_address_start_index = 12
-                # source_address_end_index = 16
-                # source_ip = struct.unpack("BBBB", icmp_packet[source_address_start_index:source_address_end_index])
-                # print(f'Response source_ip: {source_ip}')
-                
-                # matched_source_ip = do_ips_match(destination_ip_address, source_ip)
-                # print(f'IPs match: {matched_source_ip}')
                 
                 # Type
-                icmp_type_start_index = 28
-                icmp_type_end_index = 29
+                icmp_type_start_index = 20
+                icmp_type_end_index = 21
                 icmp_type = ord(icmp_packet[icmp_type_start_index:icmp_type_end_index])
                 print(f'Type: {icmp_type}')
                 right_type = is_right_type(icmp_type)
                 
                 # Code
-                code_start_index = 29
-                code_end_index = 30
+                code_start_index = 21
+                code_end_index = 22
                 code = ord(icmp_packet[code_start_index:code_end_index])
                 print(f'Code: {code}')
                 right_code = is_right_code(code)
                 
                 right_type_and_code = right_type and right_code
                 
-                # Then 20 bytes for sent IP header + 8 bytes for UDP header
-                time_to_live_start_index = 8 + 28
-                time_to_live_end_index = 9 + 28
+                # TTL remaining? #FIXME I don't think this is right
+                time_to_live_start_index = 8
+                time_to_live_end_index = 9
                 time_to_live = ord(icmp_packet[time_to_live_start_index:time_to_live_end_index])
                 print(f'Time_to_live: {time_to_live}')
                 num_hops = ttl - time_to_live
