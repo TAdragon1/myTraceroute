@@ -60,7 +60,7 @@ if __name__ == "__main__":
             # send_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
             # Change headers
-            ttl = 30
+            ttl = 255
             send_sock.setsockopt(socket.SOL_IP, socket.IP_TTL, ttl)
 
             # Include disclaimer
