@@ -112,8 +112,8 @@ if __name__ == "__main__":
                 right_type_and_code = right_type and right_code
                 
                 # TTL remaining? #FIXME I don't think this is right
-                time_to_live_start_index = 8
-                time_to_live_end_index = 9
+                time_to_live_start_index = 28
+                time_to_live_end_index = 29
                 time_to_live = ord(icmp_packet[time_to_live_start_index:time_to_live_end_index])
                 print(f'Time_to_live: {time_to_live}')
                 num_hops = ttl - time_to_live
@@ -145,3 +145,6 @@ if __name__ == "__main__":
                 
                 print(f'Num hops: {num_hops}')
                 print(f'RTT: {rtt}\n\n')
+                
+                bytes_included_from_original = len(icmp_packet) - 28
+                print(f'Number of byes from send datagram: {bytes_included_from_original}')
