@@ -12,3 +12,7 @@ jiameng.com resolved to an ip address of 127.0.0.1, with a hop count of 0, and R
 I am keeping nownews.com, ih5.cn, and t-online.de, and am replacing the other seven with sites from the top 1000.
 
 The new 7 sites are: 360.cn, twitter.com, envato.com, softonic.com, blogspot.com, yahoo.com, and google.com
+
+## Results
+
+With the exception of one site, in the graph created from my results there is a clear visualization of a longer RTT with more hops.
