@@ -90,18 +90,15 @@ if __name__ == "__main__":
                 attempts += 1
                 if attempts == 3:
                     print(f'Destination: {destination}')
-                    print(f'Destination ip address: {destination_ip_address}')
                     print("Timed out\n\n")
 
             else:
                 rtt = time.time() - time_sent         
                 print(f'Destination: {destination}')
-                print(f'Destination ip address: {destination_ip_address}')
 
                 # Get ICMP packet
                 icmp_packet = recv_sock.recv(2000)  # should be plenty
                 read_response = True
-                print(f'Length of packet: {len(icmp_packet)}')
 
                 # Type
                 icmp_type_start_index = 20
@@ -123,26 +120,27 @@ if __name__ == "__main__":
                 time_to_live_start_index = 36
                 time_to_live_end_index = 37
                 time_to_live = ord(icmp_packet[time_to_live_start_index:time_to_live_end_index])
-                print(f'Time_to_live: {time_to_live}')
+                # print(f'Time_to_live: {time_to_live}')
                 num_hops = ttl - time_to_live
 
                 # Check if match:
                 dest_address_start_index = 16 + 28
                 dest_address_end_index = 20 + 28
                 dest_ip = struct.unpack("BBBB", icmp_packet[dest_address_start_index:dest_address_end_index])
-                print(f'Send desination_ip: {dest_ip}')
+                print(f'Sent ip address: {destination_ip_address}')
+                print(f'Sent ip from payload: {dest_ip}')
 
                 num_matched = 0
                 matched_destination_ip = do_ips_match(destination_ip_address, dest_ip)
                 if matched_destination_ip and right_type_and_code:
                     num_matched += 1
-                print(f'IPs match and correct type and code: {matched_destination_ip and right_type_and_code}')
+                print(f'Type, Code, and IPs match: {matched_destination_ip and right_type_and_code}')
 
                 # Grab port from payload
                 dest_port_start_index = 2 + 48
                 dest_port_end_index = 4 + 48
                 dest_port = struct.unpack("!H", icmp_packet[dest_port_start_index:dest_port_end_index])[0]
-                print(f'ICMP Payload port: {dest_port}')
+                print(f'Payload port: {dest_port}')
 
                 matched_destination_port = do_ports_match(DESTINATION_PORT_NUM, dest_port)
                 if matched_destination_port:
@@ -155,4 +153,5 @@ if __name__ == "__main__":
                 print(f'RTT in ms: {rtt*1000}')
 
                 bytes_included_from_original = len(icmp_packet) - 28
+                print(f'Length of packet: {len(icmp_packet)}')
                 print(f'Number of byes from send datagram: {bytes_included_from_original}\n\n')
