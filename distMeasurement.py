@@ -80,7 +80,7 @@ if __name__ == "__main__":
             # Create raw socket to receive ICMP messages
             recv_sock = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_ICMP)
 
-            # Windows shenanigans
+            # Hack for Windows
             recv_sock.bind(('', 0))
 
             timeout_sec = 10
