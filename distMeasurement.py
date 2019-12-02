@@ -84,7 +84,8 @@ if __name__ == "__main__":
             # Windows shenanigans
             recv_sock.bind(('', 0))
 
-            ready = select.select([recv_sock], [], [], ttl)
+            timeout_sec = 10
+            ready = select.select([recv_sock], [], [], timeout_sec)
             if ready[0] == []:
                 attempts += 1
                 if attempts == 3:
