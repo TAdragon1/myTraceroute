@@ -29,17 +29,26 @@ def is_right_code(icmp_code):
     return icmp_code == 3
 
 
-if __name__ == "__main__":
+def read_destinations():
     #  Open file and read in destinations
     targets_file = open('targets.txt', 'r')
     destinations = []
-    destination = 'val'
+    at_end_of_file = False
 
-    while destination != '':
+    while not at_end_of_file:
         destination = targets_file.readline()
+        
         if destination != '':
             destinations.append(destination[:-1])
+        else:
+            at_end_of_file = True
+    
     targets_file.close()
+    return destinations
+
+
+if __name__ == "__main__":
+    destinations = read_destinations()
 
     for destination in destinations:
         attempts = 0
