@@ -1,6 +1,6 @@
+import select
 import socket
 import struct
-import select
 import time
 
 
@@ -21,14 +21,12 @@ def do_ports_match(port_int, port):
     return port_int == port
 
 
-valid_types = [3]
 def is_right_type(icmp_type):
-    return valid_types.__contains__(icmp_type)
+    return icmp_type == 3
 
 
-valid_codes = [3]
 def is_right_code(icmp_code):
-    return valid_codes.__contains__(icmp_code)
+    return icmp_code == 3
 
 
 if __name__ == "__main__":
