@@ -78,7 +78,6 @@ if __name__ == "__main__":
             recv_sock.bind(('', 0))
 
             ready = select.select([recv_sock], [], [], ttl)
-            rtt = time.time() - time_sent
             if ready[0] == []:
                 attempts += 1
                 if attempts == 3:
@@ -86,7 +85,8 @@ if __name__ == "__main__":
                     print(f'Destination ip address: {destination_ip_address}')
                     print("Timed out\n\n")
 
-            else:                
+            else:
+                rtt = time.time() - time_sent         
                 print(f'Destination: {destination}')
                 print(f'Destination ip address: {destination_ip_address}')
             
@@ -144,7 +144,7 @@ if __name__ == "__main__":
                 print(f'Num of matches: {num_matched}')
                 
                 print(f'Num hops: {num_hops}')
-                print(f'RTT: {rtt}')
-                
+                print(f'RTT in ms: {rtt*1000}')
+
                 bytes_included_from_original = len(icmp_packet) - 28
                 print(f'Number of byes from send datagram: {bytes_included_from_original}\n\n')
