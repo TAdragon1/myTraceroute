@@ -42,7 +42,7 @@ def read_destinations():
             destinations.append(destination[:-1])
         else:
             at_end_of_file = True
-    
+
     targets_file.close()
     return destinations
 
@@ -64,7 +64,6 @@ if __name__ == "__main__":
 
             # Create datagram
             send_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-            # send_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
             # Change headers
             ttl = 255
@@ -85,8 +84,8 @@ if __name__ == "__main__":
             recv_sock.bind(('', 0))
 
             timeout_sec = 10
-            ready = select.select([recv_sock], [], [], timeout_sec)
-            if ready[0] == []:
+            optional = select.select([recv_sock], [], [], timeout_sec)
+            if optional[0] == []:
                 attempts += 1
                 if attempts == 3:
                     print(f'Destination: {destination}')
