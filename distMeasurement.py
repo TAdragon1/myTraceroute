@@ -154,4 +154,4 @@ if __name__ == "__main__":
 
                 bytes_included_from_original = len(icmp_packet) - 28
                 print(f'Length of packet: {len(icmp_packet)}')
-                print(f'Number of byes from send datagram: {bytes_included_from_original}\n\n')
+                print(f'Number of byes from sent datagram: {bytes_included_from_original}\n\n')
