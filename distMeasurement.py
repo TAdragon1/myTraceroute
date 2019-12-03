@@ -30,7 +30,7 @@ def is_right_code(icmp_code):
 
 
 def read_destinations():
-    #  Open file and read in destinations
+    # Open file and read in destinations
     targets_file = open('targets.txt', 'r')
     destinations = []
     at_end_of_file = False
@@ -65,15 +65,15 @@ if __name__ == "__main__":
             # Create datagram
             send_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
 
-            # Change headers
+            # Set ttl to max
             ttl = 255
             send_sock.setsockopt(socket.SOL_IP, socket.IP_TTL, ttl)
 
-            # Include disclaimer
+            # Include disclaimer message
             msg = "Measurement for class project. Questions to student twa16@case.edu or professor mxr136@case.edu"
             payload	= bytes(msg	+ 'a'*(1472	- len(msg)),'ascii')
 
-            # Send socket
+            # Send to destination
             send_sock.sendto(payload, (destination_ip_address, DESTINATION_PORT_NUM))
             time_sent = time.time()
 
@@ -83,6 +83,7 @@ if __name__ == "__main__":
             # Hack for Windows
             recv_sock.bind(('', 0))
 
+            # Wait for 30 seconds
             timeout_sec = 30
             optional = select.select([recv_sock], [], [], timeout_sec)
             if optional[0] == []:
