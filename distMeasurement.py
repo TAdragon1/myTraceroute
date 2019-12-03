@@ -83,7 +83,7 @@ if __name__ == "__main__":
             # Hack for Windows
             recv_sock.bind(('', 0))
 
-            timeout_sec = 10
+            timeout_sec = 30
             optional = select.select([recv_sock], [], [], timeout_sec)
             if optional[0] == []:
                 attempts += 1
