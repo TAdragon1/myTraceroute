@@ -2,6 +2,8 @@
 
 ## Targets
 
+My `distMeasurement.py` looks for hostnames in the `targets.txt` file.
+
 My targets per HW2 instructions are: sohu.com, 1688.com, jiameng.com, wikimedia.org,
 mit.edu, skroutz.gr, nownews.com, ih5.cn, t-online.de, and rbc.ru
 
@@ -15,4 +17,4 @@ The new 7 sites are: 360.cn, twitter.com, envato.com, softonic.com, blogspot.com
 
 ## Results
 
-With the exception of one site, in the graph created from my results there is a clear visualization of a longer RTT with more hops.
+With the graph created from my results there is a clear visualization of a longer RTT with more hops. My report is in `EECS 325 Project 2.pdf`
