@@ -96,7 +96,7 @@ if __name__ == "__main__":
                 print(f'Destination: {destination}')
 
                 # Get ICMP packet
-                icmp_packet = recv_sock.recv(2000)  # should be plenty
+                icmp_packet = recv_sock.recv(1528)
                 read_response = True
 
                 # Type
